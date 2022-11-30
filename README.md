@@ -74,20 +74,20 @@ The goal of this step is to use Docker compose to deploy a first version of the 
 
 The goal of this step is to run a reverse proxy in front of the dynamic and static Web servers such that the reverse proxy receives all connections and relays them to the respective Web server. 
 
-(Several old Webcasts are available ([5a](https://www.youtube.com/watch?v=iGl3Y27AewU) [5b](https://www.youtube.com/watch?v=lVWLdB3y-4I) [5c](https://www.youtube.com/watch?v=MQj-FzD-0mE) [5d](https://www.youtube.com/watch?v=B_JpYtxoO_E) [5e](https://www.youtube.com/watch?v=dz6GLoGou9k)) which show a methods to do this with Apache.
-However, **we do not recommend anymore to follow this method** but instead to use a more modern approach, based on [Traefik](https://traefik.io/traefik/). Traefik is a reverse proxy which interfaces directly with Docker to obtain the list of active backend servers. This means that it can dynamically adjust to the number of running server.)
+*(Several old Webcasts are available ([5a](https://www.youtube.com/watch?v=iGl3Y27AewU) [5b](https://www.youtube.com/watch?v=lVWLdB3y-4I) [5c](https://www.youtube.com/watch?v=MQj-FzD-0mE) [5d](https://www.youtube.com/watch?v=B_JpYtxoO_E) [5e](https://www.youtube.com/watch?v=dz6GLoGou9k)) which show a methods to do this with Apache.
+However, **we do not recommend anymore to follow this method** but instead to use a more modern approach, based on [Traefik](https://traefik.io/traefik/). Traefik is a reverse proxy which interfaces directly with Docker to obtain the list of active backend servers. This means that it can dynamically adjust to the number of running server.)*
 
 The steps to follow for this section are thus:
 
 * add a new service "reverse_proxy" to your `docker-compose.yml` file using the Traefik docker image
-* To configure the Traefik service and the communication between the Web servers and Traefik:
+* Configure the Traefik service and the communication between the Web servers and Traefik:
   * read the [Traefik Quick Start](https://doc.traefik.io/traefik/getting-started/quick-start/) documentation,
   * read the [Traefik & Docker](https://doc.traefik.io/traefik/routing/providers/docker/) documentation, in particular for the dynamic Web server. 
 
 ### Acceptance criteria
 
 * You have a GitHub repo with everything needed to build the various images.
-* You can do a demo, where you start from an "empty" Docker environment (no container running) and using docker compose you can start your infrastructure with 3 containers: static server, dynamic server and reverse proxy
+* You can do a demo where you start from an "empty" Docker environment (no container running) and using docker compose you can start your infrastructure with 3 containers: static server, dynamic server and reverse proxy
 * In the demo you can access each Web server from the browser in the demo. You can prove that the routing is done correctly through the reverse proxy.
 * You are able to explain how you have implemented the solution and walk us through the configuration and the code.
 * You are able to explain why a reverse proxy is useful to improve the security of the infrastructure.
@@ -109,6 +109,8 @@ Modify your `docker-compose.yml` file such that several instances of each Web se
 * You have **documented** your configuration in your report.
 
 ## Step 4: AJAX requests with JQuery
+
+The goal of the step is to use AJAX requests to dynamically update a Web page every few seconds with data coming from the dynamic Web server.
 
 ### Webcasts
 
