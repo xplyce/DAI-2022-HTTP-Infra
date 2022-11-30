@@ -2,18 +2,18 @@
 
 ## Objectives
 
-The first objective of this lab is to get familiar with software tools that will allow us to build a **complete web infrastructure**. By that, we mean that we will build an environment that will allow us to serve **static and dynamic content** to web browsers. To do that, we will see that the **apache httpd server** can act both as a **HTTP server** and as a **reverse proxy**. We will also see that **express.js** is a JavaScript framework that makes it very easy to write dynamic web apps.
+The first objective of this lab is to get familiar with software tools that will allow us to build a **complete web infrastructure**. By that, we mean that we will build an environment that will allow us to serve **static and dynamic content** to web browsers. To do that, we will see how to configure a **Web server** and a **reverse proxy**. We will also see that **express.js** is a JavaScript framework that makes it very easy to write dynamic web apps.
 
 The second objective is to implement a simple, yet complete, **dynamic web application**. We will create **HTML**, **CSS** and **JavaScript** assets that will be served to the browsers and presented to the users. The JavaScript code executed in the browser will issue asynchronous HTTP requests to our web infrastructure (**AJAX requests**) and fetch content generated dynamically.
 
-The third objective is to practice our usage of **Docker**. All the components of the web infrastructure will be packaged in custom Docker images (we will create at least 3 different images).
+The third objective is to practice our usage of **Docker**. All the components of the web infrastructure will be packaged in custom Docker images (we will create at least 3 different images). We will also use **Docker compose** to define a complete infrastructure with several components.
 
 ## General instructions
 
 * This is a **BIG** lab and you will need a lot of time to complete it. 
-* We have prepared webcasts for a big portion of the lab (**what can get you the "base" grade of 4.5**).
+* We have prepared webcasts for a big portion of the lab.
 * Be aware that the webcasts have been recorded in 2016. There is no change in the list of tasks to be done, but of course **there are some differences in the details**. For instance, the Docker images that we use to implement the solution have changed a bit and you will need to do **some adjustments to the scripts**. This is part of the work and we ask you to document what the required adaptations in your report.
-* The webcasts present one solution. Feeling adventurous and want to propose another one (for instance, by using nginx instead apache httpd, or django instead of express.js)? Go ahead, we **LOVE** that. Make sure to document your choices in the report. If you are not sure if your choice is compatible with the list of acceptance criteria? Not sure about what needs to be done to get the extra points? Reach out to the teaching team. **Learning to discuss requirements with a "customer"** (even if this one pays you with a grade and not with money) is part of the process!
+* The webcasts present one solution. Feeling adventurous and want to propose another one (for instance, by using Django or Deno instead of express.js)? Go ahead, we **LOVE** that. Make sure to document your choices in the report. If you are not sure if your choice is compatible with the list of acceptance criteria? Not sure about what needs to be done to get the extra points? Reach out to the teaching team. **Learning to discuss requirements with a "customer"** (even if this one pays you with a grade and not with money) is part of the process!
 * To get **additional points**, you will need to do research in the documentation by yourself (we are here to help, but we will not give you step-by-step instructions!). To get the extra points, you will also need to be creative (do not expect complete guidelines).
 * The lab can be done in **groups of 2 students**. You will learn very important skills and tools, which you will need to next year's courses. You cannot afford to skip this content if you want to survive next year. Essentially, this means that it's a pretty bad idea to only have one person in the group doing the job...
 * Read carefully all the **acceptance criteria**.
@@ -54,24 +54,59 @@ The third objective is to practice our usage of **Docker**. All the components o
 * You don't have to use express.js; if you want, you can use another JavaScript web framework or event another language.
 * You have **documented** your configuration in your report.
 
+## Step 3: Docker compose to build the infrastructure
 
-## Step 3: Reverse proxy with apache (static configuration)
+There are no Webcasts (yet) for this part.
 
-### Webcasts
+The goal of this step is to use Docker compose to deploy a first version of the infrastructure with a single static and a single dynamic Web server.
 
-* [Labo HTTP (3a): reverse proxy apache httpd dans Docker](https://www.youtube.com/watch?v=WHFlWdcvZtk)
-* [Labo HTTP (3b): reverse proxy apache httpd dans Docker](https://www.youtube.com/watch?v=fkPwHyQUiVs)
-* [Labo HTTP (3c): reverse proxy apache httpd dans Docker](https://www.youtube.com/watch?v=UmiYS_ObJxY)
-
+* You will need to install Docker compose on your machine. You'll find the instructions [on this link](https://docs.docker.com/compose/).
+* You will need to write a `docker-compose.yml` file. To do this, read the [introduction](https://docs.docker.com/compose/features-uses/), then have a look at this [tutorial](https://docs.docker.com/compose/gettingstarted/). They should provide the information you need to write your docker-compose file.
 
 ### Acceptance criteria
 
-* You have a GitHub repo with everything needed to build the Docker image for the container.
-* You can do a demo, where you start from an "empty" Docker environment (no container running) and where you start 3 containers: static server, dynamic server and reverse proxy; in the demo, you prove that the routing is done correctly by the reverse proxy.
-* You can explain and prove that the static and dynamic servers cannot be reached directly (reverse proxy is a single entry point in the infra). 
-* You are able to explain why the static configuration is fragile and needs to be improved.
+* You have added a `docker-compose.yml` file to your GitHub repo.
+* You can start and stop an infrastructure with a single dynamic and a single static Web server using docker compose.
+* You can access both Web servers on your local machine on the respective ports.
 * You have **documented** your configuration in your report.
 
+## Step 3: Reverse proxy with Traefik
+
+The goal of this step is to run a reverse proxy in front of the dynamic and static Web servers such that the reverse proxy receives all connections and relays them to the respective Web server. 
+
+(Several old Webcasts are available ([5a](https://www.youtube.com/watch?v=iGl3Y27AewU) [5b](https://www.youtube.com/watch?v=lVWLdB3y-4I) [5c](https://www.youtube.com/watch?v=MQj-FzD-0mE) [5d](https://www.youtube.com/watch?v=B_JpYtxoO_E) [5e](https://www.youtube.com/watch?v=dz6GLoGou9k)) which show a methods to do this with Apache.
+However, **we do not recommend anymore to follow this method** but instead to use a more modern approach, based on [Traefik](https://traefik.io/traefik/). Traefik is a reverse proxy which interfaces directly with Docker to obtain the list of active backend servers. This means that it can dynamically adjust to the number of running server.)
+
+The steps to follow for this section are thus:
+
+* add a new service "reverse_proxy" to your `docker-compose.yml` file using the Traefik docker image
+* To configure the Traefik service and the communication between the Web servers and Traefik:
+  * read the [Traefik Quick Start](https://doc.traefik.io/traefik/getting-started/quick-start/) documentation,
+  * read the [Traefik & Docker](https://doc.traefik.io/traefik/routing/providers/docker/) documentation, in particular for the dynamic Web server. 
+
+### Acceptance criteria
+
+* You have a GitHub repo with everything needed to build the various images.
+* You can do a demo, where you start from an "empty" Docker environment (no container running) and using docker compose you can start your infrastructure with 3 containers: static server, dynamic server and reverse proxy
+* In the demo you can access each Web server from the browser in the demo. You can prove that the routing is done correctly through the reverse proxy.
+* You are able to explain how you have implemented the solution and walk us through the configuration and the code.
+* You are able to explain why a reverse proxy is useful to improve the security of the infrastructure.
+* You have **documented** your configuration in your report.
+
+
+## Step 3a: Dynamic cluster management
+
+The goal of this section is to allow Traefik to dynamically detect several instances of the (dynamic/static) Web servers. You may have already done this in the previous step 3.
+
+Modify your `docker-compose.yml` file such that several instances of each Web server are started. Check that the reverse proxy distributes the connections between the different instances.
+
+### Acceptance criteria
+
+* The modified `docker-compose.yml` file is in your GitHub repo.
+* You can use docker compose to start the infrastructure with several instances of each Web server.
+* You can do a demo to show that Traefik performs load balancing among the instances.
+* If you add or remove instances, you can show that the load balancer is dynamically updated to use the available instances.
+* You have **documented** your configuration in your report.
 
 ## Step 4: AJAX requests with JQuery
 
@@ -84,58 +119,34 @@ The third objective is to practice our usage of **Docker**. All the components o
 * You have a GitHub repo with everything needed to build the various images.
 * You can do a complete, end-to-end demonstration: the web page is dynamically updated every few seconds (with the data coming from the dynamic backend).
 * You are able to prove that AJAX requests are sent by the browser and you can show the content of th responses.
-* <strike>You are able to explain why your demo would not work without a reverse proxy (because of a security restriction).</strike>
-* You are able to explain why a reverse proxy is useful to improve the security of the infrastructure.
 * You have **documented** your configuration in your report.
 
-## Step 5: Dynamic reverse proxy configuration
+## Step 5: Load balancing: round-robin and sticky sessions
 
-Several Webcasts are available ([5a](https://www.youtube.com/watch?v=iGl3Y27AewU) [5b](https://www.youtube.com/watch?v=lVWLdB3y-4I) [5c](https://www.youtube.com/watch?v=MQj-FzD-0mE) [5d](https://www.youtube.com/watch?v=B_JpYtxoO_E) [5e](https://www.youtube.com/watch?v=dz6GLoGou9k)) which show a methods to do this with Apache.
+By default, Traefik uses Round Robin to distribute the load among all available instances. However, if a service is stateful, it would be better to send requests of the same session always to the same instance. This is called sticky sessions.
 
-However, **we do not recommend anymore to follow this method** but instead to use a more modern approach, based on [Traefik](https://traefik.io/traefik/). Traefik is a reverse proxy which interfaces directly with Docker to obtain the list of active backend servers. This means that it can dynamically adjust to the number of running server.
+The goal of this step is to change the configuration such that:
 
-To use Traefik you have to convert your docker run scripts to [Docker Compose](https://docs.docker.com/compose/). Docker Compose manages several "services" (i.e., running containers) at once.
-
-The steps to follow for this section are thus:
-
-* create a docker-compose file which manages all your services (the static and dynamic Web servers), using your docker images.
-* add a new service "reverse_proxy" using the Traefik docker image
-* To configure the Traefik service and the communication between the Web servers and Traefik:
-  * read the [Traefik Quick Start](https://doc.traefik.io/traefik/getting-started/quick-start/) documentation,
-  * read the [Traefik & Docker](https://doc.traefik.io/traefik/routing/providers/docker/) documentation, in particular for the dynamic Web server. 
+* Traefik uses sticky session for the static Web server instances
+* Traefik continues to use round robin for the dynamic servers (no change required)
 
 ### Acceptance criteria
 
-* You have a GitHub repo with everything needed to build the various images.
-* You are able to do an end-to-end demo with a well-prepared scenario. Make sure that you can demonstrate that everything works when you restart your infrastructure with a different number of servers.
-* You are able to explain how you have implemented the solution and walk us through the configuration and the code.
-* You have **documented** your configuration in your report.
-
-## Additional steps to get extra points on top of the "base" grade
-
-### Load balancing: multiple server nodes (0.5pt)
-
-* You extend the reverse proxy configuration to support **load balancing**. You get this for free if you use Traefik.
-* You show that you can have **multiple static server nodes** and **multiple dynamic server nodes**. 
-* You prove that the **load balancer** can distribute HTTP requests between these nodes.
-* You have **documented** your configuration and your validation procedure in your report.
-
-### Load balancing: round-robin vs sticky sessions (0.5 pt)
-
-* You can do this with [Traefik](https://doc.traefik.io/traefik/routing/providers/docker/#services)
 * You do a setup to demonstrate the notion of sticky session.
 * You prove that your load balancer can distribute HTTP requests in a round-robin fashion to the dynamic server nodes (because there is no state).
 * You prove that your load balancer can handle sticky sessions when forwarding HTTP requests to the static server nodes.
-* You have documented your configuration and your validation procedure in your report.
+* You have **documented** your configuration and your validation procedure in your report.
 
-### Dynamic cluster management (0.5 pt)
+## Step 6: Management UI
 
-* You develop a solution, where the server nodes (static and dynamic) can appear or disappear at any time.
-* You show that the load balancer is dynamically updated to reflect the state of the cluster (you get this for free with Traefik).
-* You have documented your configuration and your validation procedure in your report.
+The goal of this step is to deploy or develop a Web app that can be used to monitor and update your Web infrastructure dynamically. You should be able to list running containers, start/stop them and add/remove instances.
 
-### Management UI (0.5 pt)
+There are two options for this step:
 
-* You develop a web app (e.g. with express.js) that administrators can use to monitor and update your web infrastructure.
-* You find a way to control your Docker environment (list containers, start/stop containers, etc.) from the web app. For instance, you use the Dockerode npm module (or another Docker client library, in any of the supported languages).
-* You have documented your configuration and your validation procedure in your report.
+* you use an existing solution (search on Google)
+* you develop your own Web app (e.g. with express.js). In this case, you can use the Dockerode npm module (or another Docker client library, in any of the supported languages) to access the docker API.
+
+### Acceptance criteria
+
+* You can do a demo to show the Management UI and manage the containers of your infrastructure.
+* You have **documented** your configuration in your report.
