@@ -112,6 +112,8 @@ Modify your `docker-compose.yml` file such that several instances of each Web se
 
 The goal of the step is to use AJAX requests to dynamically update a Web page every few seconds with data coming from the dynamic Web server.
 
+Note: in the webcast we introduce you to JQuery, but you can also use the more modern [JavaScript Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) to easily make AJAX requests.
+
 ### Webcasts
 
 * [Labo HTTP (4): AJAX avec JQuery](https://www.youtube.com/watch?v=fgpNEbgdm5k)
