@@ -80,15 +80,14 @@ However, **we do not recommend anymore to follow this method** but instead to us
 
 The steps to follow for this section are thus:
 
-* add a new service "reverse_proxy" to your `docker-compose.yml` file using the Traefik docker image
-* Configure the Traefik service and the communication between the Web servers and Traefik:
-  * first read the documentation of Traefik:
-    * read the [Traefik Quick Start](https://doc.traefik.io/traefik/getting-started/quick-start/) documentation,
-    * read the [Traefik Router](https://doc.traefik.io/traefik/routing/routers/) documentation, in particular the "Rule" section,
-    * read the [Traefik & Docker](https://doc.traefik.io/traefik/routing/providers/docker/) documentation, in particular for the dynamic Web server. 
+* read the [Traefik Quick Start](https://doc.traefik.io/traefik/getting-started/quick-start/) documentation and add a new service "reverse_proxy" to your `docker-compose.yml` file using the Traefik docker image
+* configure the Traefik service and the communication between the Web servers and Traefik:
+  * first read the documentation of Traefik, including those ones:
+    * the [Traefik Router](https://doc.traefik.io/traefik/routing/routers/) documentation, in particular the "Rule" section,
+    * the [Traefik & Docker](https://doc.traefik.io/traefik/routing/providers/docker/) documentation, in particular for the dynamic Web server. 
   * then implement the reverse proxy:
     * start by relaying the requests coming to "localhost/" to the **static HTTP server** (that's the easy part),
-    * relay the requests coming to "localhost/api/" to the **dynamic HTTP server** (here you will need to search a little bit in the documentation how to use the "/api" path prefix),
+    * then relay the requests coming to "localhost/api/" to the **dynamic HTTP server** (here you will need to search a little bit in the documentation how to use the "/api" path prefix),
 
 ### Acceptance criteria
 
