@@ -21,6 +21,7 @@ The third objective is to practice our usage of **Docker**. All the components o
 * **You have to write a report. Please do that directly in the repo, in one or more markdown files. Start in the README.md file at the root of your directory.**
 * The report must contain the procedure that you have followed to prove that your configuration is correct (what you would do if you were doing a demo).
 * Check out the **due dates** on the main repo for the course.
+* Please create one directory or one branch per step so it will be easier for us to correct your work.
 
 
 ## Step 1: Static HTTP server with apache httpd
