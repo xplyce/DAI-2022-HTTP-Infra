@@ -120,7 +120,7 @@ The goal of the step is to use AJAX requests to dynamically update a Web page ev
 
 * You have a GitHub repo with everything needed to build the various images.
 * You can do a complete, end-to-end demonstration: the web page is dynamically updated every few seconds (with the data coming from the dynamic backend).
-* You are able to prove that AJAX requests are sent by the browser and you can show the content of th responses.
+* You are able to prove that AJAX requests are sent by the browser and you can show the content of the responses.
 * You have **documented** your configuration in your report.
 
 ## Step 5: Load balancing: round-robin and sticky sessions
