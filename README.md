@@ -83,6 +83,7 @@ The steps to follow for this section are thus:
 * add a new service "reverse_proxy" to your `docker-compose.yml` file using the Traefik docker image
 * Configure the Traefik service and the communication between the Web servers and Traefik:
   * read the [Traefik Quick Start](https://doc.traefik.io/traefik/getting-started/quick-start/) documentation,
+  * read the [Traefik Router](https://doc.traefik.io/traefik/routing/routers/) documentation,
   * read the [Traefik & Docker](https://doc.traefik.io/traefik/routing/providers/docker/) documentation, in particular for the dynamic Web server. 
 
 ### Acceptance criteria
