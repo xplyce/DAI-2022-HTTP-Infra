@@ -1,0 +1,3 @@
+-d permet de lancer la commande en arrière plan
+
+cd /etc ... //apache config 
