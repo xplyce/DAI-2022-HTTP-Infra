@@ -9,15 +9,26 @@ services:
       # The HTTP port
       - "80:80"
       # The Web UI (enabled by --api.insecure=true)
-      - "9090:3000"
+      - "8080:8080"
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
 
-  web:
-    build: .
-    ports:
-      - "9090:3000"
-
   redis:
-    image: "marko_nicolas/express"
+    image: "redis:alpine"
+  web-static:
+    build: ./images/static/.
+    scale: 3
+    ports:
+      - "80"
+    labels:
+      - "traefik.autodetect=true"
+      - "traefik.http.routers.web-static.rule=PathPrefix(`/`)"
+  web-dynamic:
+    build: images/dynamic/.
+    scale: 3
+    ports:
+      - "3000"
+    labels:
+      - "traefik.autodetect=true"
+      - "traefik.http.routers.dynamic.rule=(Host(`localhost`) && PathPrefix(`/api`))"
