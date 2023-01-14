@@ -31,4 +31,4 @@ services:
       - "3000"
     labels:
       - "traefik.autodetect=true"
-      - "traefik.http.routers.web-dynamic.rule=(Host(`localhost`) && PathPrefix(`/api`))"
+      - "traefik.http.routers.dynamic.rule=(Host(`localhost`) && PathPrefix(`/api`))"
