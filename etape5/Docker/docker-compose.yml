@@ -23,6 +23,9 @@ services:
     labels:
       - "traefik.autodetect=true"
       - "traefik.http.routers.web-static.rule=PathPrefix(`/`)"
+      # sticky session
+      - "traefik.http.services.static.loadbalancer.sticky.cookie=true"
+      - "traefik.http.services.static.loadbalancer.sticky.cookie.name=static-cookie"
   web-dynamic:
     build: images/dynamic/.
     ports:
