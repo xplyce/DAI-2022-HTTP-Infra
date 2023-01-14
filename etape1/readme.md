@@ -1,19 +1,27 @@
-//changer le port 9090 si on veut executer plusieurs fois la même image
+## Etape 1: Static HTTP server with apache httpd
+
+### Dockerfile
+Nous utilisons l'image php:7.2-apache disponible sur le docker hub. Le dockerfile 
+va s'occuper de copier notre fichier src contenant le template bootstrap que nous 
+avons choisi dans l'espace de travail du container(/var/www/html/).
+
+```
+FROM php:7.2-apache
+COPY src/ /var/www/html/
+```
+### Création de l'image et lancement du container
+
+```
+docker build -t marko_nicolas/apache_php .
 docker run -p 9090:80 marko_nicolas/apache_php
+```
+### Acces aux fichiers de la config apache
 
-docker ps //pour avoir le nom
+Le docker exec permet d'accéder au fichier du container.
+Ensuite nous devons nous déplacer dans le /etc/apache2/sites-available 
+pour trouver les fichiers de config.
 
-docker kill <name>
-
------------------------------
-  
--d permet de lancer la commande en arrière plan
-
------------------------------
-
-docker run -it name bin/bash permet d'accéder au container
-exit pour quitter le container
-cd /etc ... //apache config 
-
-liens utiles :
-https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-20-04-fr
+```
+docker exec -it name bin/bash 
+cd etc/apache2/sites-available
+```
