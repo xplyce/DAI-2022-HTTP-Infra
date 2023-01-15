@@ -3,18 +3,21 @@
 ### Docker compose to build the infrastructure
 
 Pour pouvoir utiliser les commandes ``docker compose build`` et ``docker compose up``
-afin de générer les images et de les lancer, il nous fallait écrire un docker-compose.yml.
-Dans ce docker-compose.yml, on retrouve les images des serveurs static et dynamic. 
+afin de générer les images et de les lancer, on a besoin d'écrire un docker-compose.yml.
+Dans ce docker-compose.yml, on retrouve les images des serveurs static et dynamic. On 
+peut y accéder via localhost:8080 ou localhost:9090. Ces deux adresses ne sont 
+plus disponnible avec la configuration final de l'étape 3, car nous avons dû 
+modifier le numéro de port pour y avoir accès uniquement via localhost et localhost/api. 
 
 ```
 web-static:
   build: ./images/static/.
   ports:
-    - "80"
+    - "8080:80"
 web-dynamic:
   build: images/dynamic/.
   ports:
-    - "3000"
+    - "9090:3000"
 ```
 
 ### Reverse proxy with Traefik
@@ -22,7 +25,15 @@ web-dynamic:
 Afin de pouvoir accéder au serveur static via localhost et au serveur dynamic via 
 localhost/api, il nous fallait un reverse proxy qui redirige les requêtes sur les 
 bons numéros de port. C'est pour cela que nous utilisons le reverse proxy Traefik. 
-Ce dernier nous permet également d'avoir une vue d'ensemble si on veut 
+Ce dernier nous permet également d'avoir un dashboard avec diverses informations sur 
+notre reverse proxy. Pour accéder à ce dashboard il faut utiliser l'adresse suivante
+localhost:8080. 
+
+Pour configurer ce reverse proxy nous avons dû ajouter un container avec l'image
+traefik:v2.9. Ce dernier nous permet également de sécurisé notre site en accèdant 
+au serveur static et dynamic directement via localhost ou localhost/api sans avoir
+à entrer l'adresse des ports en dur. Pour ce faire nous avons dû ajouter les deux
+labels ci-dessous on était ajouter, un pour web-static et un pour web-dynamic. 
 
 ```
 reverse-proxy:
@@ -38,25 +49,22 @@ reverse-proxy:
   volumes:
     # So that Traefik can listen to the Docker events
     - /var/run/docker.sock:/var/run/docker.sock
-```
-
-### Dynamic cluster management
-
-```
-web-static:
-  build: ./images/static/.
-  scale: 3
-  ports:
-    - "80"
+    
+  #labels de web-static
   labels:
     - "traefik.autodetect=true"
     - "traefik.http.routers.web-static.rule=Host(`localhost`)"
-web-dynamic:
-  build: images/dynamic/.
-  scale: 3
-  ports:
-    - "3000"
+    
+  #labels de web-dynamic
   labels:
     - "traefik.autodetect=true"
     - "traefik.http.routers.dynamic.rule=(Host(`localhost`) && PathPrefix(`/api`))"
 ```
+
+### Dynamic cluster management
+
+Avec la configuration du docker-compose.yml actuel alors traefik est déjà capable 
+de dynamiquement detecté plusieurs instances et nous envoyer sur une des instances. 
+Par défaut traefik applique le round robin pour savoir qu'elle instance du serveur 
+utilisé. On peut vérifier le bon fonctionnement du load balancer grâce à l'affichage
+de l'id de session qui se modifie à chaque fois que le refresh la page. 
