@@ -1,27 +1,57 @@
-## Etape 1: Static HTTP server with apache httpd
+## Etape 3: Static HTTP server with apache httpd
 
-### Dockerfile
-Nous utilisons l'image php:7.2-apache disponible sur le docker hub. Le dockerfile 
-va s'occuper de copier notre fichier src contenant le template bootstrap que nous 
-avons choisi dans l'espace de travail du container(/var/www/html/).
+### Docker compose to build the infrastructure
 
-```
-FROM php:7.2-apache
-COPY src/ /var/www/html/
-```
-### Création de l'image et lancement du container
+Pour pouvoir utiliser les commandes ``docker compose build`` et ``docker compose up``
+afin de générer les images et de les lancer, il nous fallait écrire un docker-compose.yml.
+Dans ce docker-compose.yml on retrouve les deux serveurs 
 
 ```
-docker build -t marko_nicolas/apache_php .
-docker run -p 9090:80 marko_nicolas/apache_php
+web-static:
+  build: ./images/static/.
+  ports:
+    - "80"
+web-dynamic:
+  build: images/dynamic/.
+  ports:
+    - "3000"
 ```
-### Acces aux fichiers de la config apache
 
-Le docker exec permet d'accéder au fichier du container.
-Ensuite nous devons nous déplacer dans le /etc/apache2/sites-available 
-pour trouver les fichiers de config.
+### Reverse proxy with Traefik
 
 ```
-docker exec -it name bin/bash 
-cd etc/apache2/sites-available
+reverse-proxy:
+  # The official v2 Traefik docker image
+  image: traefik:v2.9
+  # Enables the web UI and tells Traefik to listen to docker
+  command: --api.insecure=true --providers.docker
+  ports:
+    # The HTTP port
+    - "80:80"
+    # The Web UI (enabled by --api.insecure=true)
+    - "8080:8080"
+  volumes:
+    # So that Traefik can listen to the Docker events
+    - /var/run/docker.sock:/var/run/docker.sock
+```
+
+### Dynamic cluster management
+
+```
+web-static:
+  build: ./images/static/.
+  scale: 3
+  ports:
+    - "80"
+  labels:
+    - "traefik.autodetect=true"
+    - "traefik.http.routers.web-static.rule=Host(`localhost`)"
+web-dynamic:
+  build: images/dynamic/.
+  scale: 3
+  ports:
+    - "3000"
+  labels:
+    - "traefik.autodetect=true"
+    - "traefik.http.routers.dynamic.rule=(Host(`localhost`) && PathPrefix(`/api`))"
 ```
