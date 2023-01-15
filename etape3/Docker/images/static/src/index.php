@@ -49,7 +49,6 @@
                         echo '</h2>';
                         ?>
                         <!-- fin sticky session -->
-                        <p id="api-animals"></p>
                         <a class="btn btn-primary" href="#about">Get Started</a>
                     </div>
                 </div>
