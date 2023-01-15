@@ -40,16 +40,16 @@
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
                         <h1 class="mx-auto my-0 text-uppercase">&curren; DINGZ &curren;</h1>
-                        <h2 class="text-white-50 mx-auto mt-2
-                            mb-5"> La dinguerie à l'état pur </h2>
+                        <h2 class="text-white-50 mx-auto mt-2 mb-5">
+                            La dinguerie à l'état pur </h2>
                         <!-- sticky session affichage de hostname -->
                         <?php
                         echo '<h2 class="text-white-50 mx-auto mt-2 mb-5">';
-                        echo 'Votre ID de session est le : '.gethostname();;
+                        echo 'Votre ID de session est le : '.gethostname();
                         echo '</h2>';
                         ?>
                         <!-- fin sticky session -->
-                        <p id="api-animals"></p>
+                        <h2 class="text-white-50 mx-auto mt-2 mb-5" id="api-animals"> </h2>
                         <a class="btn btn-primary" href="#about">Get Started</a>
                     </div>
                 </div>
