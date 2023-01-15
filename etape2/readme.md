@@ -2,7 +2,7 @@
 
 ### npm
 
-Pour cette étape, nous avons utilisé npm pour la gestion des paquetages. Afin de l'utiliser, il faut d'abbord l'initialiser à l'aide de la commande ``npm init``. Ceci va nous permette de facilement créer un fichier package.json avec des informations telles que le nom du projet, une description ... (voir package.json ci-dessous). On peut également retrouvé les dépendances de notre projet ce qui permet de facilité l'installation de ces dernière en effectuant un ``npm install``. 
+Pour cette étape, nous avons utilisé npm pour la gestion des paquetages. Afin de l'utiliser, il faut d'abord l'initialiser à l'aide de la commande ``npm init``. Ceci va nous permette de facilement créer un fichier package.json avec des informations telles que le nom du projet, une description ... (voir package.json ci-dessous). On peut également retrouvé les dépendances de notre projet ce qui permet de facilité l'installation de ces dernière en effectuant un ``npm install``. 
 
 package.json
 ```
