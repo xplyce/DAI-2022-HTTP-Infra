@@ -6,21 +6,21 @@ page web pour afficher un animal, son age et son pays d'origine.
 De plus, l'actualisation se fait toute les 3 secondes.
 
 ### animals.js
-
-
+Faire une requête sur localhost/api et recuperer la liste d'animaux
+pour la stocker dans la variable animals et l'actualiser toute les 
+3 secondes.
 ```
 setInterval(async() => {
 
     const animals = await fetch('/api/').then(response => response.json());
-
+    send = "";
     if (animals.length > 0) {
-        send = "[jkadfbsajshdfbsadj : " + animals[0].typeOfAnimal +
-            ", ageOfAnimal : " + animals[0].ageOfAnimal + ", countryOfAnimal :"
-            + animals[0].countryOfAnimal + "]";
+        send = "animal : " + animals[0].typeOfAnimal +
+               " age : " + animals[0].ageOfAnimal +
+               " country : " + animals[0].countryOfAnimal;
     }
 
     document.getElementById("api-animals").innerHTML = send}, 3000)
-
 ```
 
 ### index.html
@@ -33,8 +33,8 @@ animals.js a chaque fois que la page web est actualiser.
 ```
 
 Cet ajout a pour but d'afficher l'id api-animals qui va nous
-d'afficher sur notre page web l'animal, son age et son pays.
+permettre d'afficher sur notre page web l'animal, son age et son pays.
 ```
-<p id="api-animals"></p>
+<h2 class="text-white-50 mx-auto mt-2 mb-5" id="api-animals"> </h2>
 ```
 
