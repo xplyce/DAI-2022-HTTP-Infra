@@ -1,11 +1,11 @@
 setInterval(async() => {
 
     const animals = await fetch('/api/').then(response => response.json());
-
+    send = "";
     if (animals.length > 0) {
-        send = "[typeOfAnimal : " + animals[0].typeOfAnimal +
-            ", ageOfAnimal : " + animals[0].ageOfAnimal + ", countryOfAnimal :"
-            + animals[0].countryOfAnimal + "]";
+        send = "animal : " + animals[0].typeOfAnimal +
+               " age : " + animals[0].ageOfAnimal +
+               " country : " + animals[0].countryOfAnimal;
     }
 
-    document.getElementById("api-animals").innerHTML = send}, 5000)
+    document.getElementById("api-animals").innerHTML = send}, 3000)

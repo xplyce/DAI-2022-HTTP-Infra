@@ -18,6 +18,7 @@ services:
     image: "redis:alpine"
   web-static:
     build: ./images/static/.
+    scale: 3
     ports:
       - "80"
     labels:
@@ -25,6 +26,7 @@ services:
       - "traefik.http.routers.web-static.rule=PathPrefix(`/`)"
   web-dynamic:
     build: images/dynamic/.
+    scale: 3
     ports:
       - "3000"
     labels:
