@@ -4,7 +4,7 @@
 
 Pour pouvoir utiliser les commandes ``docker compose build`` et ``docker compose up``
 afin de générer les images et de les lancer, il nous fallait écrire un docker-compose.yml.
-Dans ce docker-compose.yml on retrouve les deux serveurs 
+Dans ce docker-compose.yml, on retrouve les images des serveurs static et dynamic. 
 
 ```
 web-static:
@@ -18,6 +18,11 @@ web-dynamic:
 ```
 
 ### Reverse proxy with Traefik
+
+Afin de pouvoir accéder au serveur static via localhost et au serveur dynamic via 
+localhost/api, il nous fallait un reverse proxy qui redirige les requêtes sur les 
+bons numéros de port. C'est pour cela que nous utilisons le reverse proxy Traefik. 
+Ce dernier nous permet également d'avoir une vue d'ensemble si on veut 
 
 ```
 reverse-proxy:

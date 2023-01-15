@@ -4,8 +4,10 @@ var chance = new Chance();
 var express = require('express');
 var app = express();
 
+const os = require('os');
+
 app.get('/api', function(req, res) {
-    res.send( generateAnimals() );
+    res.send(generateAnimals() );
 });
 
 app.listen(3000, function () {
@@ -18,6 +20,9 @@ function generateAnimals() {
     console.log(numberOfAnimals);
     var animals = [];
     var ages = ['teen', 'child']
+    animals.push({
+        hostname: os.hostname()
+    });
     for (var i = 0; i < numberOfAnimals; i++) {
         var rnd = chance.integer({min: 0, max: 1});
         animals.push({
