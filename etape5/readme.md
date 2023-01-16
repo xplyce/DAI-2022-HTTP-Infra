@@ -60,7 +60,7 @@ Pour le round robin, voici un exemple d'affichage
 "Hostname dynamic : 4cdd6cd5e8a1 animal : Birds age : 15 country : Seychelles".
 Ceci est le message actualiser toute les 3 secondes de l'étape 4 auquelles nous
 avons ajouter l'hostname du serveur dynamique. Comme nous pouvons le voir sur 
-la page web, l'hostname dynamique varie parmis 3 hostname différent ( vu que 
+la page web, l'hostname dynamique varie parmis 3 hostname différent (vu que 
 nous aovns lancer 3 serveur dynamique) ce qui veut dire qu'il est bien en 
 round robin.
 

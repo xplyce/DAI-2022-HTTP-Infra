@@ -21,5 +21,4 @@ pour activer docker compose. Ici, le port 9000 a été choisi.
       - 9000:9000
 ```
 
-Pour lancer portainer, il suffit d'accéder a la page 
-```localhost:900```.
+Pour lancer portainer, il suffit d'accéder a la page localhost:9000.
